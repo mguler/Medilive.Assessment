@@ -2,23 +2,39 @@ $(() => {
 
 
     let showErrorMessages = (messages) => {
-
         if (!messages) {
             return;
         }
 
-        messages.forEach(message => {
-            let textElement = document.querySelector(`#${message.code}-feedback`);
-            textElement.innerText = message.text;
-            textElement.classList.add("invalid-feedback");
-            document.querySelector(`#${message.code}`).classList.add("is-invalid");
-        });
-
+        let messageText = "";
+        for (let index = 0; index < messages.length; index++) {
+            let currentMessage = messages[index];
+            messageText += currentMessage.text + "\r\n";
+        }
+        alert(messageText);
+        /*
+        let form = document.querySelector("form");
+        for (let index = 0; index < messages.length; index++) {
+            let currentMessage = messages[index];
+            let formElement = document.querySelector(`#${currentMessage.code}-feedback`);
+            formElement.innerText = currentMessage.text;
+            formElement.classList.remove("valid-feedback");
+            formElement.classList.add("invalid-feedback");
+        }
+        form.classList.add("was-validated");
+        */
     }
 
     let removeErrorMessages = () => {
-        document.querySelectorAll(".feedback").forEach(element => element.classList.remove("invalid-feedback"));
-        document.querySelectorAll(".is-invalid").forEach(element => element.classList.remove("is-invalid"));
+        let form = document.querySelector("form");
+        let elements = document.querySelectorAll(".valid-feedback , .invalid-feedback");
+        for (let index = 0; index < elements.length; index++) {
+            var element = elements[index];
+            element.innerText = "";
+            element.classList.remove("invalid-feedback");
+            element.classList.add("valid-feedback");
+        }
+        form.classList.remove("was-validated");
     }
 
     let fillData = (data) => {
