@@ -21,18 +21,8 @@ namespace Medilive.Assessment.Affiliate.WebApplication.Controllers
 
         [HttpGet]
         [Obsolete]
-        public IActionResult Register(string referralCode)
+        public IActionResult Register()
         {
-            //If referral code is set
-            if (!string.IsNullOrEmpty(referralCode))
-            {
-                // An ambiguous or suspicious request
-                var result = _affiliateUserManager.SetReferralCodeCookie(referralCode);
-                if (!result) 
-                {
-                    return BadRequest();
-                }
-            }
             return View();
         }
 
@@ -46,13 +36,6 @@ namespace Medilive.Assessment.Affiliate.WebApplication.Controllers
             //TODO: IF WE USE A METHOD INTERCEPTOR AND EXECUTE FOLLOWING CODE BLOCK WITHIN THE INTERCEPTOR, IT WOULD BE A BETTER APPROACH
             #region Validations and Rule Checks
             var ruleCheckResult = _ruleServiceProvider.ApplyRules("Register", request.Data) as Rule;
-
-            var referralCodeLimitExceeded = _affiliateUserManager.CheckIfRefererralCodeLimitExceeded();
-            if (referralCodeLimitExceeded)
-            {
-                response.Messages = new List<ResponseMessageDto>();
-                response.Messages.Add(new ResponseMessageDto { Text = "An error occured, contact to system administrator" });
-            }
 
             if (ruleCheckResult != null && ruleCheckResult.HasErrors)
             {

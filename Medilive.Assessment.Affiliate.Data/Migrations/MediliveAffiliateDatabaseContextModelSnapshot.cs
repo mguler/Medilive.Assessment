@@ -115,6 +115,15 @@ namespace Medilive.Assessment.Affiliate.Data.Migrations
                         new
                         {
                             Id = 7L,
+                            Access = "AUTHENTICATED_USER",
+                            Action = "GetUserSummary",
+                            Controller = "User",
+                            IsDeleted = false,
+                            RouteTemplate = "/get-user-summary"
+                        },
+                        new
+                        {
+                            Id = 8L,
                             Access = "UNAUTHENTICATED_USER",
                             Action = "Login",
                             Controller = "Authentication",
@@ -123,7 +132,7 @@ namespace Medilive.Assessment.Affiliate.Data.Migrations
                         },
                         new
                         {
-                            Id = 8L,
+                            Id = 9L,
                             Access = "AUTHENTICATED_USER",
                             Action = "Logout",
                             Controller = "Authentication",
@@ -241,6 +250,33 @@ namespace Medilive.Assessment.Affiliate.Data.Migrations
                             UserType = "ADMINISTRATOR",
                             Username = "Administrator"
                         });
+                });
+
+            modelBuilder.Entity("Medilive.Assessment.Affiliate.Data.Model.UserManagement.ClientBlock", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BlockedUntil")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("IdentificationCookie")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<long>("IpNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientBlock", "UserManagement");
                 });
 
             modelBuilder.Entity("Medilive.Assessment.Affiliate.Data.Model.UserManagement.Gender", b =>

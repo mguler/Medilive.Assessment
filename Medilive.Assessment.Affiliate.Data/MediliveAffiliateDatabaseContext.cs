@@ -28,6 +28,7 @@ namespace Medilive.Assessment.Affiliate.Data
             #region User Management
             AffiliateUser.FluentInitAndSeed(modelBuilder, userTypeConverter, genderConverter);
             RegistrationReferralCodeAudit.FluentInitAndSeed(modelBuilder);
+            ClientBlock.FluentInitAndSeed(modelBuilder);
             Route.FluentInitAndSeed(modelBuilder, routeAccessConverter);
             #endregion End Of User Management
         }

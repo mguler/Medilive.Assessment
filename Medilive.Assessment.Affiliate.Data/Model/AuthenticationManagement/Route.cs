@@ -91,12 +91,20 @@ namespace Medilive.Assessment.Affiliate.Data.Model.AuthenticationManagement
                     Access = RouteAccess.Values.AUTHENTICATED_USER
                 });
 
+                entity.HasData(new Route()
+                {
+                    Id = 7,
+                    Controller = "User",
+                    Action = "GetUserSummary",
+                    RouteTemplate = "/get-user-summary",
+                    Access = RouteAccess.Values.AUTHENTICATED_USER
+                });
                 #endregion End Of User Management
 
                 #region Authentication Management
                 entity.HasData(new Route()
                 {
-                    Id = 7,
+                    Id = 8,
                     Controller = "Authentication",
                     Action = "Login",
                     RouteTemplate = "/user-login",
@@ -105,7 +113,7 @@ namespace Medilive.Assessment.Affiliate.Data.Model.AuthenticationManagement
 
                 entity.HasData(new Route()
                 {
-                    Id = 8,
+                    Id = 9,
                     Controller = "Authentication",
                     Action = "Logout",
                     RouteTemplate = "/user-logout",

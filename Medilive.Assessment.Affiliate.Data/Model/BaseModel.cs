@@ -15,6 +15,9 @@ namespace Medilive.Assessment.Affiliate.Data.Model
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id);
                 entity.Property(e => e.IsDeleted).IsRequired();
+
+                //Filter deleted records
+                entity.HasQueryFilter(model => !model.IsDeleted);
             });
         }
 

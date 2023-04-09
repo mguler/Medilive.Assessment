@@ -1,16 +1,24 @@
-﻿using Medilive.Assessment.Affiliate.Data.Model.UserManagement;
+﻿using MappingProviderCore.Abstract;
+using Medilive.Assessment.Affiliate.Data.Model.UserManagement;
 using Medilive.Assessment.Affiliate.Dto.UserManagement;
 using Medilive.Assessment.Core.Abstract.Data;
+using Medilive.Assessment.Core.Abstract.Jwt;
 using Medilive.Assessment.Core.Abstract.RuleEngine;
 using Medilive.Assessment.Core.Extensions;
 using Medilive.Assessment.Core.Tools.ReCaptcha;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Medilive.Assessment.Rules.Configuration.AuthenticationManagement.Login
 {
     public class RegisterFormDataCheckRule : Rule
     {
-        public RegisterFormDataCheckRule(IDataRepository dataRepository, GoogleReCaptchaService _googleReCaptchaService) {
-            
+        public RegisterFormDataCheckRule(IDataRepository dataRepository
+            , GoogleReCaptchaService _googleReCaptchaService
+            ,IHttpContextAccessor httpContextAccessor
+            ,IJwtHelper jwtHelper
+            ,IConfiguration config) 
+        {
             Define<RegisterAffiliateUserDto>((userInfo) => {
 
                 // Check if the model is null
@@ -26,6 +34,59 @@ namespace Medilive.Assessment.Rules.Configuration.AuthenticationManagement.Login
                 {
                     AddMessage("You couldn't passed the captcha validation", "FormValidation", "captcha", Priority.Error);
                     return;
+                }
+
+                //Checks the referral code
+                if (!string.IsNullOrEmpty(userInfo.ReferralCode))
+                {
+
+                    var ipNumber = httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().Address;
+                    var identificationCookie = httpContextAccessor.HttpContext.Request.Cookies["IdentificationCookie"];
+
+                    var referralTokenValidationKey = config["Application:Keys:ReferralTokenValidationKey"];
+                    var referralCodeValidationResult = jwtHelper.ValidateToken(referralTokenValidationKey, userInfo.ReferralCode);
+                    var isReferralCodeAlreadyApplied = dataRepository.Get<RegistrationReferralCodeAudit>()
+                        .Any(registrationReferralCodeAudit => registrationReferralCodeAudit.ReferralCode == userInfo.ReferralCode
+                        && registrationReferralCodeAudit.IsSuccessfull);
+
+                    var isReferralCodeValid = referralCodeValidationResult.IsSuccessful & !isReferralCodeAlreadyApplied;
+
+                    var referralCodeAudit = new RegistrationReferralCodeAudit
+                    {
+                        IpNumber = ipNumber,
+                        IdentificationCookie = identificationCookie,
+                        ReferralCode = userInfo.ReferralCode,
+                        AttemptOn = DateTime.Now.ToUnixTimeLong(),
+                        IsSuccessfull = isReferralCodeValid
+                    };
+                    dataRepository.Save(referralCodeAudit);
+
+                    if (!isReferralCodeValid)
+                    {
+                        var last24hours = DateTime.Now.ToUnixTimeLong() - 86400000; //86400000 miliseconds = 24 Hours  
+
+                        // Check if the reference code trial limit has been exceeded more than 2 times within the last 24 hours.
+                        var refererralCodeLimitExceeded = dataRepository.Get<RegistrationReferralCodeAudit>().Count(registrationReferralCodeAudit =>
+                            (registrationReferralCodeAudit.IdentificationCookie == identificationCookie
+                            || registrationReferralCodeAudit.IpNumber == ipNumber)
+                            && registrationReferralCodeAudit.AttemptOn >= last24hours
+                            && !registrationReferralCodeAudit.IsSuccessfull) > 2;
+
+                        if (refererralCodeLimitExceeded)
+                        {
+                            //Block for next 24 hours
+                            var clientBlock = new ClientBlock
+                            {
+                                IpNumber = ipNumber,
+                                IdentificationCookie = identificationCookie,
+                                BlockedUntil = DateTime.Now.ToUnixTimeLong() + 86400000,
+                            };
+                            dataRepository.Save(clientBlock);
+                        }
+
+                        AddMessage("An error occured contact to the administratir", "Referralcode", "Referralcode", Priority.Error);
+                        return;
+                    }
                 }
 
                 // Checks whether a given text has a length of at least 2 and at most 64 characters,
@@ -106,6 +167,7 @@ namespace Medilive.Assessment.Rules.Configuration.AuthenticationManagement.Login
                     AddMessage("The passwords entered in both fields must be the same."
                         , "FormValidation", "repassword", Priority.Error);
                 }
+
             });
         }
     }

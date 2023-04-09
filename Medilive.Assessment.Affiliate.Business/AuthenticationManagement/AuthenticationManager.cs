@@ -3,7 +3,6 @@ using Medilive.Assessment.Affiliate.Data.Model.UserManagement;
 using Medilive.Assessment.Affiliate.Dto.AuthenticationManagement;
 using Medilive.Assessment.Core.Abstract.Data;
 using Medilive.Assessment.Core.Abstract.Jwt;
-using Medilive.Assessment.Core.Tools.ReCaptcha;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;

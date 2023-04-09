@@ -77,6 +77,11 @@
             userInfo[key] = value;
         });
 
+        let queryString = window.location.search;
+        let urlParams = new URLSearchParams(queryString);
+        let referralCode = urlParams.get('referralCode') 
+        userInfo["referralCode"] = referralCode;
+
         $.ajax({
             method: "PUT",
             contentType: "application/json; charset=utf-8",

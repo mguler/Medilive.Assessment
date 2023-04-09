@@ -11,7 +11,7 @@ namespace Medilive.Assessment.Affiliate.Data
         {
             try
             {
-                var connectionStr = "Server=localhost;Database=AffiliateProgram;User Id=sa;Password=10105400;TrustServerCertificate=True";
+                var connectionStr = "Server=localhost;Database=AffiliateProgram;User Id=sa;Password=*******;TrustServerCertificate=True";
                 var optionsBuilder = new DbContextOptionsBuilder<MediliveAffiliateDatabaseContext>();
 
                 optionsBuilder.UseSqlServer(connectionStr);
