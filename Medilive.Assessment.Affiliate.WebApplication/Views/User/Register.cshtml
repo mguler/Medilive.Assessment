@@ -1,0 +1,85 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Config
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="~/js/user-management/register.js" type="text/javascript"></script>
+
+<div class="card p-2">
+    <form class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="Name" placeholder="Your Name" required>
+            <div class="valid-feedback" id="name-feedback">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="lastname" class="form-label">Lastname</label>
+            <input type="text" class="form-control" id="lastname" name="Lastname" placeholder="Family Name">
+            <div class="valid-feedback" id="lastname-feedback">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="Username" placeholder="Username">
+            <div class="valid-feedback" id="username-feedback">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="Password" placeholder="Password">
+            <div class="valid-feedback" id="password-feedback">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="repassword" class="form-label">Re-Password</label>
+            <input type="password" class="form-control" id="repassword" name="RePassword" placeholder="Password Again">
+            <div class="valid-feedback" id="repassword-feedback">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="gender" class="form-label">Gender</label>
+            <select class="form-select mb-3" id="gender" name="Gender" placeholder="Select">
+            </select>
+            <div class="valid-feedback" id="gender-feedback">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="email" class="form-label">E-Mail</label>
+            <input type="email" class="form-control" id="email" name="Email" placeholder="E-Mail Address">
+            <div class="valid-feedback" id="email-feedback">
+            </div>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="number" class="form-control" id="phone" name="Phone" placeholder="Phone Number">
+            <div class="valid-feedback" id="phone-feedback">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="agreement" name="Agreement" required>
+                <label class="form-check-label" for="agreement">
+                    Agree to terms and conditions
+                </label>
+                <div class="valid-feedback" id="agreement-feedback">
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="g-recaptcha" data-sitekey="@Config["Application:ReCaptcha:PublicKey"]"></div>
+            <div class="valid-feedback" id="captcha-feedback">
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Register</button>
+        </div>
+    </form>
+</div>
+
+
+
+

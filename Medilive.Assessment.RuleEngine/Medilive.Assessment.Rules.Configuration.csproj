@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Medilive.Assessment.Affiliate.Business\Medilive.Assessment.Affiliate.Business.csproj" />
+    <ProjectReference Include="..\Medilive.Assessment.Affiliate.Data\Medilive.Assessment.Affiliate.Data.csproj" />
+    <ProjectReference Include="..\Medilive.Assessment.Affiliate.Dto\Medilive.Assessment.Affiliate.Dto.csproj" />
+    <ProjectReference Include="..\Medilive.Assessment.Affiliate.Mapping\Medilive.Assessment.Affiliate.Mapping.Configuration.csproj" />
+    <ProjectReference Include="..\Medilive.Assessment.Core\Medilive.Assessment.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<script src="~/js/user-management/user-home.js" type="text/javascript"></script>
+
+<div class="card p-2">
+    <div class="col-12 row mt-3">
+        <span id="user-summary" class="text-center"></span>
+    </div>
+    <form class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="Name" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="lastname" class="form-label">Lastname</label>
+            <input type="text" class="form-control" id="lastname" name="Lastname" readonly>
+        </div>
+        <div class="col-md-4">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="Username" readonly>
+        </div>
+        <div class="col-md-4">
+            <label for="usertype" class="form-label">User Type</label>
+            <input type="text" class="form-control" id="usertype" name="Usertype" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="gender" class="form-label">Gender</label>
+            <input type="text" class="form-control" id="gender" name="Gender" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="email" class="form-label">E-Mail</label>
+            <input type="email" class="form-control" id="email" name="Email" readonly>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="number" class="form-control" id="phone" name="Phone" readonly>
+        </div>
+    </form>
+</div>

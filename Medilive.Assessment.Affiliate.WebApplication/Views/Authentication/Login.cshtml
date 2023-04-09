@@ -1,0 +1,39 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Config
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="~/js/authentication-management/login.js" type="text/javascript"></script>
+
+
+<div class="container h-100">
+    <div class="row d-flex align-items-center mt-auto">
+        <div class="col-4">
+        </div>
+        <div class="col-3">
+            <div class="col-12 card p-3 mt-5">
+                <form class="row g-3 needs-validation" novalidate>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+
+                    <div class="col-122">
+                        <button class="btn btn-primary" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12  mt-2">
+                <div class="g-recaptcha" data-sitekey="@Config["Application:ReCaptcha:PublicKey"]"></div>
+            </div>
+        </div>
+        <div class="col-12 row mt-3">
+            <span class="text-center">If you are not a registered user, please visit our <a href="/new-user-registration">registration page</a> to create a user account.</span>
+        </div>
+    </div>
+</div>
